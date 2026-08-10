@@ -841,17 +841,25 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               <>
                 {showTavisM1toM20 && (
                   <>
-                    {/* Top-Right Tavis Protector (B7-B8 for M1-M20) -> Portrait T10-U12 */}
+                    {/* Top-Right Tavis Protector (B7-B8 for M1-M20) -> Fullscreen Portrait E10-F11 */}
                     <div 
-                      className="absolute z-20 flex items-center justify-center bg-[#0a0a0a] rounded-[4px] md:rounded-lg shadow-xl border border-white/10 pointer-events-none top-[10%] right-[20%] w-[20%] h-[10%] portrait:top-[73%] portrait:right-auto portrait:left-[60%] portrait:w-[20%] portrait:h-[7.7%]"
+                      className={`absolute z-20 flex items-center justify-center bg-[#0a0a0a] rounded-[4px] md:rounded-lg shadow-xl border border-white/10 pointer-events-none top-[10%] right-[20%] w-[20%] h-[10%] ${
+                        isFullscreen
+                          ? "portrait:top-[15.384%] portrait:right-auto portrait:left-[60%] portrait:w-[13.333%] portrait:h-[7.692%]"
+                          : "portrait:top-[73%] portrait:right-auto portrait:left-[60%] portrait:w-[20%] portrait:h-[7.7%]"
+                      }`}
                     >
                        {/* eslint-disable-next-line @next/next/no-img-element */}
                        <img src="/PHYSFLIX.png" alt="PhysicsSPMFlix" className="h-[45%] w-auto object-contain opacity-80" />
                     </div>
                     
-                    {/* Bottom-Right Tavis Protector (I7-I8 for M1-M20) -> Portrait G10-H12 */}
+                    {/* Bottom-Right Tavis Protector (I7-I8 for M1-M20) -> Fullscreen Portrait V10-W11 */}
                     <div 
-                      className="absolute z-20 flex items-center justify-center bg-[#0a0a0a] rounded-[4px] md:rounded-lg shadow-xl border border-white/10 pointer-events-none bottom-[10%] right-[20%] w-[20%] h-[10%] portrait:bottom-auto portrait:top-[23%] portrait:right-auto portrait:left-[60%] portrait:w-[20%] portrait:h-[7.7%]"
+                      className={`absolute z-20 flex items-center justify-center bg-[#0a0a0a] rounded-[4px] md:rounded-lg shadow-xl border border-white/10 pointer-events-none bottom-[10%] right-[20%] w-[20%] h-[10%] ${
+                        isFullscreen
+                          ? "portrait:bottom-auto portrait:top-[80.769%] portrait:right-auto portrait:left-[60%] portrait:w-[13.333%] portrait:h-[7.692%]"
+                          : "portrait:bottom-auto portrait:top-[23%] portrait:right-auto portrait:left-[60%] portrait:w-[20%] portrait:h-[7.7%]"
+                      }`}
                     >
                        {/* eslint-disable-next-line @next/next/no-img-element */}
                        <img src="/PHYSFLIX.png" alt="PhysicsSPMFlix" className="h-[45%] w-auto object-contain opacity-80" />
