@@ -135,7 +135,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
-  const [showCover, setShowCover] = useState(currentLesson?.youtubeId ? false : true);
+  const [showCover, setShowCover] = useState(true);
   const [showEndCover, setShowEndCover] = useState(false);
   const [currentStartSeconds, setCurrentStartSeconds] = useState(600);
   const [showMobileTip, setShowMobileTip] = useState(false);
@@ -144,7 +144,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   // Derived state to INSTANTLY reset covers when lesson changes (prevents flash of background)
   if (currentLesson && currentLesson.id !== prevLessonId) {
     setPrevLessonId(currentLesson.id);
-    setShowCover(currentLesson.youtubeId ? false : true);
+    setShowCover(true);
     setShowEndCover(false);
   }
 
@@ -627,7 +627,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               }}
             ></iframe>
             {/* YouTube Anti-Interaction Overlay (Blocks pausing and top bar hover) */}
-            {currentLesson.youtubeId && (
+            {currentLesson.youtubeId && !showCover && (
               <div className="absolute inset-0 z-20 pointer-events-auto bg-transparent"></div>
             )}
 
@@ -936,7 +936,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     const startParam = is20MinStart ? "1200s" : (is18MinStart ? "1080s" : (is15MinStart ? "900s" : (is14m40sStart ? "880s" : (is13mStart ? "780s" : (is12m40sStart ? "760s" : "600s")))));
 
                     setShowEndCover(false);
-                    setShowCover(currentLesson.youtubeId ? false : true); // Reset the hole punch cover
+                    setShowCover(true); // Reset the hole punch cover
                     setCurrentStartSeconds(startSecs); // Reset timer
                     videoOpenedAt.current = Date.now(); // Reset elapsed time
                     
