@@ -163,8 +163,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       const startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
       
       setCurrentStartSeconds(startSecs); // Reset timer tracking
-      const driveUrl = `https://drive.google.com/file/d/${deobfuscateId(currentLesson.driveId)}/preview`;
-      setIframeSrc(`${driveUrl}?t=${startSecs}s`); // Auto start based on lesson in seconds, no extra params
+      
+      if (currentLesson.youtubeId) {
+        setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1`);
+      } else {
+        const driveUrl = `https://drive.google.com/file/d/${deobfuscateId(currentLesson.driveId)}/preview`;
+        setIframeSrc(`${driveUrl}?t=${startSecs}s`); // Auto start based on lesson in seconds, no extra params
+      }
     }
     
     // Auto-scroll screen to video player (useful for mobile when selecting a video)
@@ -882,8 +887,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     setShowEndCover(false);
                     setShowCover(true); // Reset the hole punch cover
                     setCurrentStartSeconds(startSecs); // Reset timer
-                    const driveUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
-                    setIframeSrc(`${driveUrl}?t=${startParam}&cc_load_policy=0&cc=0`); // Restart video at correct min
+                    
+                    if (currentLesson.youtubeId) {
+                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1`);
+                    } else {
+                      const driveUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
+                      setIframeSrc(`${driveUrl}?t=${startParam}&cc_load_policy=0&cc=0`); // Restart video at correct min
+                    }
                   }}
                   className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 active:scale-95 flex items-center gap-2"
                 >
@@ -928,9 +938,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                       if (sM) s = parseInt(sM[1]);
                       setCurrentStartSeconds(h*3600 + m*60 + s);
                     }
-                    const baseUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
-                    const urlWithTime = `${baseUrl}?t=${formattedTime}&cc_load_policy=0&cc=0`;
-                    setIframeSrc(urlWithTime);
+                    if (currentLesson.youtubeId) {
+                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${h*3600 + m*60 + s}&rel=0&modestbranding=1&autoplay=1`);
+                    } else {
+                      const baseUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
+                      const urlWithTime = `${baseUrl}?t=${formattedTime}&cc_load_policy=0&cc=0`;
+                      setIframeSrc(urlWithTime);
+                    }
                   }
                 }}
               />
