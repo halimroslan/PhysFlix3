@@ -26,6 +26,7 @@ interface UserActivityContextType {
   updateVideoProgress: (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => void;
   updateResumeTime: (driveId: string, timeInSeconds: number) => void;
   incrementRepeat: (driveId: string) => void;
+  clearMyData: () => Promise<void>;
 }
 
 const UserActivityContext = createContext<UserActivityContextType | undefined>(undefined);
@@ -194,6 +195,29 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return bookmarks.includes(driveId);
   };
 
+  const clearMyData = async () => {
+    if (!user) return;
+    setVideoStats({});
+    setWatchHistory([]);
+    setBookmarks([]);
+    localStorage.removeItem(`videoStats_${user.uid}`);
+    localStorage.removeItem(`watchHistory_${user.uid}`);
+    localStorage.removeItem(`bookmarks_${user.uid}`);
+    
+    // Clear Firestore
+    const userActivityRef = doc(db, "users", user.uid, "activity", "main");
+    try {
+      await setDoc(userActivityRef, {
+        videoStats: {},
+        watchHistory: [],
+        bookmarks: []
+      });
+      console.log("Data cleared from Firebase");
+    } catch (e) {
+      console.error("Error clearing data", e);
+    }
+  };
+
   return (
     <UserActivityContext.Provider
       value={{
@@ -206,6 +230,7 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         updateVideoProgress,
         updateResumeTime,
         incrementRepeat,
+        clearMyData,
       }}
     >
       {children}

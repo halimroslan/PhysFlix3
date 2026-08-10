@@ -9,7 +9,7 @@ import { ArrowLeft, RotateCw } from "lucide-react";
 
 export const ScoreBoardView = () => {
   const { lang } = useLanguage();
-  const { videoStats } = useUserActivity();
+  const { videoStats, clearMyData } = useUserActivity();
   const [selectedForm, setSelectedForm] = useState<4 | 5 | null>(null);
 
   // Calculate overall form completion
@@ -170,6 +170,9 @@ export const ScoreBoardView = () => {
                 ? "Jejaki kemajuan pembelajaran anda untuk keseluruhan subjek Fizik SPM. Klik pada carta untuk melihat analisis terperinci." 
                 : "Track your learning progress for the entire SPM Physics subject. Click on a chart to view detailed analytics."}
             </p>
+            <button onClick={clearMyData} className="mt-6 px-4 py-2 bg-red-600/20 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-600/40 hover:text-red-200 text-sm font-bold transition-colors">
+              ⚠️ Reset Semua Data (Dev)
+            </button>
           </div>
           
           <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 px-4">
