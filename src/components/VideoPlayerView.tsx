@@ -920,14 +920,15 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     const val = e.currentTarget.value;
                     if (!val) return;
                     let formattedTime = val;
+                    let calculatedSecs = 0;
                     if (val.includes(":")) {
                       const parts = val.split(":");
                       if (parts.length === 2) formattedTime = `${parts[0]}m${parts[1]}s`;
                       else if (parts.length === 3) formattedTime = `${parts[0]}h${parts[1]}m${parts[2]}s`;
                       
                       const p = val.split(":").map(Number);
-                      if (p.length === 2) setCurrentStartSeconds(p[0]*60 + p[1]);
-                      else if (p.length === 3) setCurrentStartSeconds(p[0]*3600 + p[1]*60 + p[2]);
+                      if (p.length === 2) calculatedSecs = p[0]*60 + p[1];
+                      else if (p.length === 3) calculatedSecs = p[0]*3600 + p[1]*60 + p[2];
                     } else {
                       let h=0, m=0, s=0;
                       const hM = val.match(/(\d+)h/);
@@ -936,10 +937,12 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                       if (hM) h = parseInt(hM[1]);
                       if (mM) m = parseInt(mM[1]);
                       if (sM) s = parseInt(sM[1]);
-                      setCurrentStartSeconds(h*3600 + m*60 + s);
+                      calculatedSecs = h*3600 + m*60 + s;
                     }
+                    setCurrentStartSeconds(calculatedSecs);
+
                     if (currentLesson.youtubeId) {
-                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${h*3600 + m*60 + s}&rel=0&modestbranding=1&autoplay=1`);
+                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${calculatedSecs}&rel=0&modestbranding=1&autoplay=1`);
                     } else {
                       const baseUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
                       const urlWithTime = `${baseUrl}?t=${formattedTime}&cc_load_policy=0&cc=0`;
