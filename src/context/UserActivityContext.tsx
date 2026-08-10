@@ -23,7 +23,7 @@ interface UserActivityContextType {
   toggleBookmark: (driveId: string) => void;
   addToHistory: (driveId: string) => void;
   isBookmarked: (driveId: string) => boolean;
-  updateVideoProgress: (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => void;
+  updateVideoProgress: (driveId: string, currentProgressSeconds: number, durationInSeconds: number, introSkipSeconds?: number) => void;
   updateResumeTime: (driveId: string, timeInSeconds: number) => void;
   incrementRepeat: (driveId: string) => void;
   clearMyData: () => Promise<void>;
@@ -145,14 +145,22 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   };
 
-  const updateVideoProgress = (driveId: string, currentProgressSeconds: number, durationInSeconds: number) => {
-    if (currentProgressSeconds < 5) return; // Ignore very short views
+  const updateVideoProgress = (driveId: string, currentProgressSeconds: number, durationInSeconds: number, introSkipSeconds: number = 0) => {
+    // If they haven't watched past the intro skip by at least 5 seconds, ignore
+    if (currentProgressSeconds < introSkipSeconds + 5) return; 
 
     setVideoStats((prev) => {
       const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
       
-      // Calculate completion based on current position vs duration, max 100%
-      let newCompletion = Math.round((currentProgressSeconds / durationInSeconds) * 100);
+      // Calculate completion based on watchable duration
+      let newCompletion = 0;
+      const watchableDuration = durationInSeconds - introSkipSeconds;
+      
+      if (watchableDuration > 0) {
+          const timeWatched = Math.max(0, currentProgressSeconds - introSkipSeconds);
+          newCompletion = Math.round((timeWatched / watchableDuration) * 100);
+      }
+      
       if (newCompletion > 100) newCompletion = 100;
 
       // Never decrease completion percentage (so it tracks the FURTHEST point reached)

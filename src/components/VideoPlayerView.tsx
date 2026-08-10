@@ -135,6 +135,19 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
+  // Calculate intro skip seconds based on lesson title
+  const introSkipSeconds = (() => {
+    if (!currentLesson?.titleBm) return 600; // Default skip is 10 mins
+    const t = currentLesson.titleBm;
+    if (t === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji") return 1200;
+    if (t === "6.1a Reputan Radioaktif") return 1080;
+    if (t === "5.1 Asas Gelombang" || t === "1.1 Daya Paduan") return 900;
+    if (t === "4.4b Hukum Gas Ulangkaji") return 880;
+    if (t === "6.6b Pembentukan Imej Oleh Cermin Sfera") return 780;
+    if (t === "6.1 Pembiasan Cahaya") return 760;
+    return 600; // Default 10 mins for all other videos
+  })();
+
   const [showCover, setShowCover] = useState(currentLesson?.youtubeId ? false : true);
   const [showEndCover, setShowEndCover] = useState(false);
   const [currentStartSeconds, setCurrentStartSeconds] = useState(0);
@@ -164,13 +177,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       } else if (firebaseSavedTime) {
         startSecs = firebaseSavedTime;
       } else {
-        const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-        const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-        const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-        const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-        const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-        const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-        startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 0)))));
+        startSecs = introSkipSeconds;
       }
       
       setCurrentStartSeconds(startSecs); // Reset timer tracking
@@ -262,7 +269,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
           durationInSeconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
         }
         const currentProgress = currentStartSeconds + timeSpent;
-        updateVideoProgress(currentLesson.id, currentProgress, durationInSeconds);
+        updateVideoProgress(currentLesson.id, currentProgress, durationInSeconds, introSkipSeconds);
         
         // Save exact resume time to Firebase on unmount
         updateResumeTime(currentLesson.id, currentProgress);
