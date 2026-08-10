@@ -9,6 +9,7 @@ export interface VideoStat {
   totalTimeWatched: number;
   repeats: number;
   completionPercentage: number;
+  lastWatchedSeconds?: number;
 }
 
 export interface VideoStatsMap {
@@ -23,6 +24,7 @@ interface UserActivityContextType {
   addToHistory: (driveId: string) => void;
   isBookmarked: (driveId: string) => boolean;
   updateVideoProgress: (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => void;
+  updateResumeTime: (driveId: string, timeInSeconds: number) => void;
   incrementRepeat: (driveId: string) => void;
 }
 
@@ -169,6 +171,19 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   };
 
+  const updateResumeTime = (driveId: string, timeInSeconds: number) => {
+    setVideoStats((prev) => {
+      const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
+      return {
+        ...prev,
+        [driveId]: {
+          ...current,
+          lastWatchedSeconds: timeInSeconds
+        }
+      };
+    });
+  };
+
   const isBookmarked = (driveId: string) => {
     return bookmarks.includes(driveId);
   };
@@ -183,6 +198,7 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         addToHistory,
         isBookmarked,
         updateVideoProgress,
+        updateResumeTime,
         incrementRepeat,
       }}
     >

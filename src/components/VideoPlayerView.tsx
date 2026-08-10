@@ -39,7 +39,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   onSelectLesson
 }) => {
   const { lang, t } = useLanguage();
-  const { isBookmarked, toggleBookmark, addToHistory, updateVideoProgress, incrementRepeat } = useUserActivity();
+  const { isBookmarked, toggleBookmark, addToHistory, updateVideoProgress, incrementRepeat, videoStats, updateResumeTime } = useUserActivity();
   const { user } = useAuth();
   const email = user?.email?.toLowerCase() || "";
   const isDev = email.includes("abdulhalimroslan") || email.includes("halimroslan");
@@ -156,11 +156,14 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
       
       // 1. Get saved progress if any
-      const savedTime = localStorage.getItem(`physflix_resume_${currentLesson.id}`);
+      const localSavedTime = localStorage.getItem(`physflix_resume_${currentLesson.id}`);
+      const firebaseSavedTime = videoStats[currentLesson.id]?.lastWatchedSeconds;
       let startSecs = 0;
       
-      if (savedTime) {
-        startSecs = parseInt(savedTime);
+      if (localSavedTime) {
+        startSecs = parseInt(localSavedTime);
+      } else if (firebaseSavedTime) {
+        startSecs = firebaseSavedTime;
       } else {
         const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
         const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
@@ -258,9 +261,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
           durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
         }
         updateVideoProgress(currentLesson.id, timeSpent, durationInSeconds);
+        
+        // Save exact resume time to Firebase on unmount
+        const currentProgress = currentStartSeconds + timeSpent;
+        updateResumeTime(currentLesson.id, currentProgress);
       }
     };
-  }, [currentLesson, updateVideoProgress]);
+  }, [currentLesson, updateVideoProgress, updateResumeTime, currentStartSeconds]);
 
   // Track and save video progress continuously every 5 seconds for Auto-Resume
   useEffect(() => {
@@ -269,16 +276,24 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     // Only track if cover is removed (playing)
     if (showCover) return;
     
+    let ticks = 0;
     const interval = setInterval(() => {
+       ticks++;
        const elapsedSecs = Math.floor((Date.now() - videoOpenedAt.current) / 1000);
        const currentProgress = currentStartSeconds + elapsedSecs;
        
-       // Save to localStorage for auto-resume
+       // 1. Save to localStorage instantly (backup)
        localStorage.setItem(`physflix_resume_${currentLesson.id}`, currentProgress.toString());
+       
+       // 2. Sync to Firebase (via context) every 12 ticks (60 seconds)
+       if (ticks >= 12) {
+         updateResumeTime(currentLesson.id, currentProgress);
+         ticks = 0;
+       }
     }, 5000);
     
     return () => clearInterval(interval);
-  }, [currentLesson, showCover, currentStartSeconds]);
+  }, [currentLesson, showCover, currentStartSeconds, updateResumeTime]);
 
   // Manage end cover timer based on playback state (showCover)
   useEffect(() => {
