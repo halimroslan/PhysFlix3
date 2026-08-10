@@ -626,10 +626,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                 coverMountedAt.current = Date.now();
               }}
             ></iframe>
-            {/* YouTube Anti-Interaction Overlay (Blocks pausing and top bar hover) */}
-            {currentLesson.youtubeId && (
-              <div className="absolute inset-0 z-20 pointer-events-auto bg-transparent"></div>
-            )}
 
             {/* Large Diagonal Watermark (27 degrees, Grid I2-N12) */}
             <div className="absolute inset-0 z-[15] pointer-events-none flex items-center justify-center overflow-hidden">
@@ -801,11 +797,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             )}
 
             {/* Bottom-Center Invisible Shield - Blocks Timeline Scrubbing (Fast Forward/Rewind) */}
-            <div 
-              className={`absolute left-[2%] right-[2%] z-30 pointer-events-auto cursor-not-allowed max-md:landscape:!top-0 max-md:landscape:!bottom-auto max-md:landscape:!h-[11.5%] max-md:landscape:!left-0 max-md:landscape:!right-0 ${isDev && devShowShields ? 'bg-red-500/30' : 'bg-transparent'}`}
-              style={shieldStyle}
-              title="Sila tonton tanpa skip"
-            ></div>
+            {!currentLesson.youtubeId && (
+              <div 
+                className={`absolute left-[2%] right-[2%] z-30 pointer-events-auto cursor-not-allowed max-md:landscape:!top-0 max-md:landscape:!bottom-auto max-md:landscape:!h-[11.5%] max-md:landscape:!left-0 max-md:landscape:!right-0 ${isDev && devShowShields ? 'bg-red-500/30' : 'bg-transparent'}`}
+                style={shieldStyle}
+                title="Sila tonton tanpa skip"
+              ></div>
+            )}
 
             {/* Permanent Protectors for 'Tavis' Logo */}
             {devShowShields && (
@@ -821,6 +819,11 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                    <img src="/PHYSFLIX.png" alt="PhysicsSPMFlix" className="h-[45%] w-auto object-contain opacity-80" />
                 </div>
               ))
+            ) : currentLesson.youtubeId ? (
+              <div className="absolute z-20 flex items-center justify-center bg-[#0a0a0a] rounded-[4px] md:rounded-lg shadow-xl border border-white/10 pointer-events-none top-[5%] right-[5%] w-[15%] h-[12%] portrait:top-[5%] portrait:right-[5%] portrait:w-[20%] portrait:h-[10%]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/PHYSFLIX.png" alt="PhysicsSPMFlix" className="h-[60%] w-auto object-contain opacity-80" />
+              </div>
             ) : (
               <>
                 {showTavisM1toM20 && (
