@@ -177,7 +177,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       setCurrentStartSeconds(startSecs); // Reset timer tracking
       
       if (currentLesson.youtubeId) {
-        setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1&controls=0&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
+        setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1&controls=1&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
       } else {
         const driveUrl = `https://drive.google.com/file/d/${deobfuscateId(currentLesson.driveId)}/preview`;
         setIframeSrc(`${driveUrl}?t=${startSecs}s`); // Auto start based on lesson in seconds, no extra params
@@ -941,7 +941,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     videoOpenedAt.current = Date.now(); // Reset elapsed time
                     
                     if (currentLesson.youtubeId) {
-                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1&controls=0&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
+                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1&controls=1&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
                     } else {
                       const driveUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
                       setIframeSrc(`${driveUrl}?t=${startParam}&cc_load_policy=0&cc=0`); // Restart video at correct min
@@ -995,7 +995,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     videoOpenedAt.current = Date.now(); // Reset elapsed time
 
                     if (currentLesson.youtubeId) {
-                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${calculatedSecs}&rel=0&modestbranding=1&autoplay=1&controls=0&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
+                      setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${calculatedSecs}&rel=0&modestbranding=1&autoplay=1&controls=1&disablekb=1&fs=0&cc_load_policy=1&cc_lang_pref=ms`);
                     } else {
                       const baseUrl = `https://drive.google.com/file/d/${rawDriveId}/preview`;
                       const urlWithTime = `${baseUrl}?t=${formattedTime}&cc_load_policy=0&cc=0`;
