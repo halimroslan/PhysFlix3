@@ -50,8 +50,11 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const [devShow45Watermark, setDevShow45Watermark] = useState(false);
   const [devShowShields, setDevShowShields] = useState(true);
   const [devShowControllerShield, setDevShowControllerShield] = useState(true);
+  const [devBypassAllShields, setDevBypassAllShields] = useState(true);
   const [devShowJump, setDevShowJump] = useState(false);
   const [devPanelOpen, setDevPanelOpen] = useState(false);
+
+  const bypassShields = isDev && devBypassAllShields;
 
   useDRMProtection(); // Activates DRM anti-inspect & anti-shortcut hook
 
@@ -507,6 +510,11 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                 </label>
 
                 <label className="flex items-center justify-between cursor-pointer">
+                  <span className="text-sm text-green-400 font-bold">BYPASS Semua Pelindung</span>
+                  <input type="checkbox" checked={devBypassAllShields} onChange={(e) => setDevBypassAllShields(e.target.checked)} className="rounded text-green-500 focus:ring-green-500 bg-slate-800 border-slate-600" />
+                </label>
+
+                <label className="flex items-center justify-between cursor-pointer">
                   <span className="text-sm text-slate-300">Tunjuk Kotak Lompat</span>
                   <input type="checkbox" checked={devShowJump} onChange={(e) => setDevShowJump(e.target.checked)} className="rounded text-sky-500 focus:ring-sky-500 bg-slate-800 border-slate-600" />
                 </label>
@@ -627,7 +635,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               }}
             ></iframe>
             {/* YouTube Anti-Interaction Overlay (Blocks pausing and top bar hover) */}
-            {currentLesson.youtubeId && !showCover && (
+            {!bypassShields && currentLesson.youtubeId && !showCover && (
               <div className="absolute inset-0 z-20 pointer-events-auto bg-transparent"></div>
             )}
 
@@ -673,7 +681,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             </div>
 
             {/* Mobile Landscape Fullscreen Controller Shields (Red Grid Based) */}
-            {isFullscreen && isMobileDevice && (
+            {!bypassShields && isFullscreen && isMobileDevice && (
               <>
                 {/* Block 1: P10-S15 */}
                 <div 
@@ -699,18 +707,20 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             )}
 
             {/* Mobile Bottom Controls Shield - Blocks CC, Gear, Fullscreen buttons on Drive player */}
-            {!currentLesson.youtubeId && (
+            {!bypassShields && !currentLesson.youtubeId && (
               <div className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black/95 md:hidden" style={{ height: '15%' }}></div>
             )}
 
             {/* Custom Top Right Brand Watermark - Blocks Google Drive Popout Button */}
             {/* Grid coverage: Mobile Portrait=A13-E15, FS Portrait=A13-F15, Mobile Landscape=A14-D15, FS Landscape=keep current */}
-            <div 
-              className="absolute top-0 right-0 z-20 flex items-center justify-center bg-black/90 rounded-bl-2xl pointer-events-auto cursor-default border-l border-b border-white/5 w-12 h-12 md:w-14 md:h-14"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/PFlix.png" alt="PhysicsSPMFlix" className="h-4 md:h-6 w-auto object-contain" />
-            </div>
+            {!bypassShields && (
+              <div 
+                className="absolute top-0 right-0 z-20 flex items-center justify-center bg-black/90 rounded-bl-2xl pointer-events-auto cursor-default border-l border-b border-white/5 w-12 h-12 md:w-14 md:h-14"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/PFlix.png" alt="PhysicsSPMFlix" className="h-4 md:h-6 w-auto object-contain" />
+              </div>
+            )}
 
             {/* Conditional Tavis Censor Block for 2.6 Daya */}
             {currentLesson.titleBm === "2.6 Daya" && (
@@ -741,12 +751,12 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
 
 
             {/* Top-Left Shield - Blocks Google Drive Title Link (Solid black on mobile to hide menu) */}
-            {!currentLesson.youtubeId && (
+            {!bypassShields && !currentLesson.youtubeId && (
               <div className="absolute top-0 left-0 z-20 w-[80%] h-10 md:h-16 pointer-events-auto cursor-default bg-black md:bg-transparent"></div>
             )}
 
             {/* Bottom Controller Shield (Solid Black) - Hides player controls completely on PC */}
-            {!currentLesson.youtubeId && devShowControllerShield && (
+            {!bypassShields && !currentLesson.youtubeId && devShowControllerShield && (
               <div 
                 className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black hidden md:block"
                 style={{
@@ -805,11 +815,13 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             )}
 
             {/* Bottom-Center Invisible Shield - Blocks Timeline Scrubbing (Fast Forward/Rewind) */}
-            <div 
-              className={`absolute left-[2%] right-[2%] z-30 pointer-events-auto cursor-not-allowed max-md:landscape:!top-0 max-md:landscape:!bottom-auto max-md:landscape:!h-[11.5%] max-md:landscape:!left-0 max-md:landscape:!right-0 ${isDev && devShowShields ? 'bg-red-500/30' : 'bg-transparent'}`}
-              style={shieldStyle}
-              title="Sila tonton tanpa skip"
-            ></div>
+            {!bypassShields && (
+              <div 
+                className={`absolute left-[2%] right-[2%] z-30 pointer-events-auto cursor-not-allowed max-md:landscape:!top-0 max-md:landscape:!bottom-auto max-md:landscape:!h-[11.5%] max-md:landscape:!left-0 max-md:landscape:!right-0 ${isDev && devShowShields ? 'bg-red-500/30' : 'bg-transparent'}`}
+                style={shieldStyle}
+                title="Sila tonton tanpa skip"
+              ></div>
+            )}
 
             {/* Permanent Protectors for 'Tavis' Logo */}
             {devShowShields && (
