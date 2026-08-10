@@ -23,10 +23,9 @@ interface UserActivityContextType {
   toggleBookmark: (driveId: string) => void;
   addToHistory: (driveId: string) => void;
   isBookmarked: (driveId: string) => boolean;
-  updateVideoProgress: (driveId: string, currentProgressSeconds: number, durationInSeconds: number, introSkipSeconds?: number) => void;
+  updateVideoProgress: (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => void;
   updateResumeTime: (driveId: string, timeInSeconds: number) => void;
   incrementRepeat: (driveId: string) => void;
-  clearMyData: () => Promise<void>;
 }
 
 const UserActivityContext = createContext<UserActivityContextType | undefined>(undefined);
@@ -145,41 +144,27 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   };
 
-  const updateVideoProgress = (driveId: string, currentProgressSeconds: number, durationInSeconds: number, introSkipSeconds: number = 0) => {
-    // If they haven't watched past the intro skip by at least 5 seconds, ignore
-    if (currentProgressSeconds < introSkipSeconds + 5) return; 
+  const updateVideoProgress = (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => {
+    if (timeSpentInSeconds < 5) return; // Ignore very short views
 
     setVideoStats((prev) => {
       const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
+      const newTotalTime = current.totalTimeWatched + timeSpentInSeconds;
       
-      // Calculate completion based on watchable duration
-      let newCompletion = 0;
-      const watchableDuration = durationInSeconds - introSkipSeconds;
-      
-      if (watchableDuration > 0) {
-          const timeWatched = Math.max(0, currentProgressSeconds - introSkipSeconds);
-          newCompletion = Math.round((timeWatched / watchableDuration) * 100);
-      }
-      
+      // Calculate completion, max 100%
+      let newCompletion = Math.round((newTotalTime / durationInSeconds) * 100);
       if (newCompletion > 100) newCompletion = 100;
 
-      // Never decrease completion percentage (so it tracks the FURTHEST point reached)
+      // Never decrease completion percentage
       if (newCompletion < current.completionPercentage) {
         newCompletion = current.completionPercentage;
-      }
-      
-      // If they just reached 95% for the first time, count it as 1 repeat (1st time completed)
-      // Since completion percentage never goes down, this prevents runaway repeats.
-      let newRepeats = current.repeats;
-      if (newCompletion >= 95 && current.completionPercentage < 95) {
-        newRepeats += 1;
       }
 
       return {
         ...prev,
         [driveId]: {
           ...current,
-          repeats: newRepeats,
+          totalTimeWatched: newTotalTime,
           completionPercentage: newCompletion
         }
       };
@@ -203,29 +188,6 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return bookmarks.includes(driveId);
   };
 
-  const clearMyData = async () => {
-    if (!user) return;
-    setVideoStats({});
-    setWatchHistory([]);
-    setBookmarks([]);
-    localStorage.removeItem(`videoStats_${user.uid}`);
-    localStorage.removeItem(`watchHistory_${user.uid}`);
-    localStorage.removeItem(`bookmarks_${user.uid}`);
-    
-    // Clear Firestore
-    const userActivityRef = doc(db, "users", user.uid, "activity", "main");
-    try {
-      await setDoc(userActivityRef, {
-        videoStats: {},
-        watchHistory: [],
-        bookmarks: []
-      });
-      console.log("Data cleared from Firebase");
-    } catch (e) {
-      console.error("Error clearing data", e);
-    }
-  };
-
   return (
     <UserActivityContext.Provider
       value={{
@@ -238,7 +200,6 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         updateVideoProgress,
         updateResumeTime,
         incrementRepeat,
-        clearMyData,
       }}
     >
       {children}
