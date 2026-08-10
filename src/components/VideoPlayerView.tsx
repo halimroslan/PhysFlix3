@@ -151,7 +151,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   useEffect(() => {
     if (currentLesson && currentLesson.id) {
       addToHistory(currentLesson.id);
-      incrementRepeat(currentLesson.id);
       videoOpenedAt.current = Date.now();
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
       
@@ -260,10 +259,10 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         if (parts.length === 2) {
           durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
         }
-        updateVideoProgress(currentLesson.id, timeSpent, durationInSeconds);
+        const currentProgress = currentStartSeconds + timeSpent;
+        updateVideoProgress(currentLesson.id, currentProgress, durationInSeconds);
         
         // Save exact resume time to Firebase on unmount
-        const currentProgress = currentStartSeconds + timeSpent;
         updateResumeTime(currentLesson.id, currentProgress);
       }
     };

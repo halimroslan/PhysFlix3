@@ -144,27 +144,33 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   };
 
-  const updateVideoProgress = (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => {
-    if (timeSpentInSeconds < 5) return; // Ignore very short views
+  const updateVideoProgress = (driveId: string, currentProgressSeconds: number, durationInSeconds: number) => {
+    if (currentProgressSeconds < 5) return; // Ignore very short views
 
     setVideoStats((prev) => {
       const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
-      const newTotalTime = current.totalTimeWatched + timeSpentInSeconds;
       
-      // Calculate completion, max 100%
-      let newCompletion = Math.round((newTotalTime / durationInSeconds) * 100);
+      // Calculate completion based on current position vs duration, max 100%
+      let newCompletion = Math.round((currentProgressSeconds / durationInSeconds) * 100);
       if (newCompletion > 100) newCompletion = 100;
 
-      // Never decrease completion percentage
+      // Never decrease completion percentage (so it tracks the FURTHEST point reached)
       if (newCompletion < current.completionPercentage) {
         newCompletion = current.completionPercentage;
+      }
+      
+      // If they just reached 95% for the first time, count it as 1 repeat (1st time completed)
+      // Since completion percentage never goes down, this prevents runaway repeats.
+      let newRepeats = current.repeats;
+      if (newCompletion >= 95 && current.completionPercentage < 95) {
+        newRepeats += 1;
       }
 
       return {
         ...prev,
         [driveId]: {
           ...current,
-          totalTimeWatched: newTotalTime,
+          repeats: newRepeats,
           completionPercentage: newCompletion
         }
       };
