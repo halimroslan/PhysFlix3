@@ -137,7 +137,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
 
   const [showCover, setShowCover] = useState(currentLesson?.youtubeId ? false : true);
   const [showEndCover, setShowEndCover] = useState(false);
-  const [currentStartSeconds, setCurrentStartSeconds] = useState(600);
+  const [currentStartSeconds, setCurrentStartSeconds] = useState(0);
   const [showMobileTip, setShowMobileTip] = useState(false);
   const [prevLessonId, setPrevLessonId] = useState(currentLesson?.id);
 
@@ -170,7 +170,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
         const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
         const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-        startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+        startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 0)))));
       }
       
       setCurrentStartSeconds(startSecs); // Reset timer tracking
@@ -258,6 +258,8 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         let durationInSeconds = 600; // fallback 10 mins
         if (parts.length === 2) {
           durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        } else if (parts.length === 3) {
+          durationInSeconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
         }
         const currentProgress = currentStartSeconds + timeSpent;
         updateVideoProgress(currentLesson.id, currentProgress, durationInSeconds);
