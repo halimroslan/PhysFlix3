@@ -135,7 +135,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
-  const [showCover, setShowCover] = useState(true);
+  const [showCover, setShowCover] = useState(currentLesson?.youtubeId ? false : true);
   const [showEndCover, setShowEndCover] = useState(false);
   const [currentStartSeconds, setCurrentStartSeconds] = useState(600);
   const [showMobileTip, setShowMobileTip] = useState(false);
@@ -144,7 +144,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   // Derived state to INSTANTLY reset covers when lesson changes (prevents flash of background)
   if (currentLesson && currentLesson.id !== prevLessonId) {
     setPrevLessonId(currentLesson.id);
-    setShowCover(true);
+    setShowCover(currentLesson.youtubeId ? false : true);
     setShowEndCover(false);
   }
 
@@ -154,13 +154,22 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       incrementRepeat(currentLesson.id);
       videoOpenedAt.current = Date.now();
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
-      const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-      const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-      const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-      const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-      const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-      const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-      const startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+      
+      // 1. Get saved progress if any
+      const savedTime = localStorage.getItem(`physflix_resume_${currentLesson.id}`);
+      let startSecs = 0;
+      
+      if (savedTime) {
+        startSecs = parseInt(savedTime);
+      } else {
+        const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
+        const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
+        const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
+        const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
+        const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
+        const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
+        startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+      }
       
       setCurrentStartSeconds(startSecs); // Reset timer tracking
       
@@ -190,6 +199,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       setTimeout(() => {
         if (document.activeElement === iframeRef.current) {
           setShowCover(false);
+          videoOpenedAt.current = Date.now(); // Reset the timer exactly when they hit play
           
           // Auto-activate fullscreen on mobile
           if (window.innerWidth < 768) {
@@ -251,6 +261,24 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       }
     };
   }, [currentLesson, updateVideoProgress]);
+
+  // Track and save video progress continuously every 5 seconds for Auto-Resume
+  useEffect(() => {
+    if (!currentLesson || !currentLesson.id) return;
+    
+    // Only track if cover is removed (playing)
+    if (showCover) return;
+    
+    const interval = setInterval(() => {
+       const elapsedSecs = Math.floor((Date.now() - videoOpenedAt.current) / 1000);
+       const currentProgress = currentStartSeconds + elapsedSecs;
+       
+       // Save to localStorage for auto-resume
+       localStorage.setItem(`physflix_resume_${currentLesson.id}`, currentProgress.toString());
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [currentLesson, showCover, currentStartSeconds]);
 
   // Manage end cover timer based on playback state (showCover)
   useEffect(() => {
@@ -885,8 +913,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     const startParam = is20MinStart ? "1200s" : (is18MinStart ? "1080s" : (is15MinStart ? "900s" : (is14m40sStart ? "880s" : (is13mStart ? "780s" : (is12m40sStart ? "760s" : "600s")))));
 
                     setShowEndCover(false);
-                    setShowCover(true); // Reset the hole punch cover
+                    setShowCover(currentLesson.youtubeId ? false : true); // Reset the hole punch cover
                     setCurrentStartSeconds(startSecs); // Reset timer
+                    videoOpenedAt.current = Date.now(); // Reset elapsed time
                     
                     if (currentLesson.youtubeId) {
                       setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${startSecs}&rel=0&modestbranding=1&autoplay=1`);
@@ -940,6 +969,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                       calculatedSecs = h*3600 + m*60 + s;
                     }
                     setCurrentStartSeconds(calculatedSecs);
+                    videoOpenedAt.current = Date.now(); // Reset elapsed time
 
                     if (currentLesson.youtubeId) {
                       setIframeSrc(`https://www.youtube.com/embed/${currentLesson.youtubeId}?start=${calculatedSecs}&rel=0&modestbranding=1&autoplay=1`);
