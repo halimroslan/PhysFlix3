@@ -699,7 +699,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             )}
 
             {/* Mobile Bottom Controls Shield - Blocks CC, Gear, Fullscreen buttons on Drive player */}
-            <div className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black/95 md:hidden" style={{ height: '15%' }}></div>
+            {!currentLesson.youtubeId && (
+              <div className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black/95 md:hidden" style={{ height: '15%' }}></div>
+            )}
 
             {/* Custom Top Right Brand Watermark - Blocks Google Drive Popout Button */}
             {/* Grid coverage: Mobile Portrait=A13-E15, FS Portrait=A13-F15, Mobile Landscape=A14-D15, FS Landscape=keep current */}
@@ -739,10 +741,12 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
 
 
             {/* Top-Left Shield - Blocks Google Drive Title Link (Solid black on mobile to hide menu) */}
-            <div className="absolute top-0 left-0 z-20 w-[80%] h-10 md:h-16 pointer-events-auto cursor-default bg-black md:bg-transparent"></div>
+            {!currentLesson.youtubeId && (
+              <div className="absolute top-0 left-0 z-20 w-[80%] h-10 md:h-16 pointer-events-auto cursor-default bg-black md:bg-transparent"></div>
+            )}
 
             {/* Bottom Controller Shield (Solid Black) - Hides player controls completely on PC */}
-            {devShowControllerShield && (
+            {!currentLesson.youtubeId && devShowControllerShield && (
               <div 
                 className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black hidden md:block"
                 style={{
