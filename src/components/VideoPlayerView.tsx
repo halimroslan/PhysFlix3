@@ -202,8 +202,8 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       
       let startSecs = minStartSecs;
       
-      // If the saved time is near or past the end of the video, ignore it and restart from skip time
-      const threshold = totalSeconds > 0 ? totalSeconds - 5 : Infinity;
+      // If the saved time is near or past the session end (which is 5 mins before video end), ignore it and restart from skip time
+      const threshold = totalSeconds > 0 ? totalSeconds - 305 : Infinity;
 
       if (localSavedTime && parseInt(localSavedTime) > minStartSecs && parseInt(localSavedTime) < threshold) {
         startSecs = parseInt(localSavedTime);
@@ -323,6 +323,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         playTimerRef.current = setTimeout(() => {
           setShowEndCover(true);
           setIframeSrc(""); // Auto mute by destroying iframe
+          if (currentLesson?.id) {
+            localStorage.removeItem(`physflix_resume_${currentLesson.id}`);
+          }
         }, watchTimeSeconds * 1000);
       } else if (totalSeconds > 0) {
         // If somehow they jumped past the very end
