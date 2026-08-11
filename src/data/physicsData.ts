@@ -686,6 +686,7 @@ export const rawForm4Videos = [
 export const rawForm5Videos = [
   {
     driveId: "US1ES3NSYWhSMEpfb1A0RlJKV01RbkNpVTV0VEN2RzAx",
+    youtubeId: "-o2sFv929IA",
     week: "T5 M1",
     weekNum: 1,
     titleBm: "1.1 Daya Paduan",
@@ -700,6 +701,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "aXZxWVpUenNzS3VXQ3FpT2dZdk9LY2FZNzMzcHl1M28x",
+    youtubeId: "g8WRogfVPSc",
     week: "T5 M2",
     weekNum: 2,
     titleBm: "1.3 Keseimbangan Daya",
@@ -714,6 +716,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "clNPT2tZTFQ2dW9GLTJEVWhxMFlCYzVCR2xWWnhqU2gx",
+    youtubeId: "6JTIn6_MVBw",
     week: "T5 M4",
     weekNum: 4,
     titleBm: "1.4 Kekenyalan",
@@ -728,6 +731,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "MFM5bGVZQ3h3SlNrNEZJdnJoZUZzVnVTdXE0OGR0RTQx",
+    youtubeId: "1K6ep0J0K-c",
     week: "T5 M6",
     weekNum: 6,
     titleBm: "2.2 Tekanan Atmosfera",
@@ -742,6 +746,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "RzVCWE5YUUhPZUZqMWFuOTJ0Nklia083bjRsMVA0am0x",
+    youtubeId: "DQsdqZpriqY",
     week: "T5 M7",
     weekNum: 7,
     titleBm: "2.3 Tekanan Gas & 2.4 Prinsip Pascal",
@@ -756,6 +761,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "b0hzSFQ1ZjJUNjVTbThhSGQwcXR5b3BWWmVHVXh6TFEx",
+    youtubeId: "0v0l6-x6Sm8",
     week: "T5 M8",
     weekNum: 8,
     titleBm: "2.5 Prinsip Archimedes",
@@ -770,6 +776,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "T2wtYTlSM2F2M1VNWE1SWUJGX1FIdUFjcl9OYWNyVDUx",
+    youtubeId: "SUvhwPcPGB0",
     week: "T5 M9",
     weekNum: 9,
     titleBm: "2.6 Prinsip Bernoulli",
@@ -784,6 +791,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "Rk50WGFmOVNSejR2cHdYUl9XZVI0TVNhdkZlcnhEMWgx",
+    youtubeId: "hWOLQs32JxM",
     week: "T5 M10",
     weekNum: 10,
     titleBm: "3.1 Arus & Beza Keupayaan",
@@ -798,6 +806,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "WHRXMG4zRVR6NmcyUG1GbjVsbTQ2OEJ1WkJfQV8yeW4x",
+    youtubeId: "kgtQsstKkKE",
     week: "T5 M11",
     weekNum: 11,
     titleBm: "3.2a Rintangan",
@@ -812,6 +821,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "bkhJdWhsVHQ3elhqUThJZFNkZWhTM0FONTRoeldZaUox",
+    youtubeId: "54Q1QprReik",
     week: "T5 M12",
     weekNum: 12,
     titleBm: "3.2b Rintangan",
@@ -826,6 +836,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "cEgxUXF4Y01mQ29UWVVPUXFxUjFKaklmR3cyb0c3cXIx",
+    youtubeId: "la169VuY5m8",
     week: "T5 M13",
     weekNum: 13,
     titleBm: "3.3 DGE & Rintangan Dalam",
@@ -840,6 +851,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "TF90MTFKSVUxd240d0lTbWxxMzdNSFNOYU5aMzZJa1kx",
+    youtubeId: "Rz8V6GIkJrE",
     week: "T5 M14",
     weekNum: 14,
     titleBm: "3.4 Tenaga & Kuasa Elektrik",
@@ -854,6 +866,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "Rzh5cWVmcUZKN252eTZiLVBiYmRCSVMtT2RBeTF2Nm8x",
+    youtubeId: "RmFYLIanMmI",
     week: "T5 M15",
     weekNum: 15,
     titleBm: "4.1a Fleming Kiri",
@@ -868,6 +881,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "eEp5d1o1dmV4TTRhQS12Y1lRWnhYc3U2bDZxd0JvVksx",
+    youtubeId: "zTrONKA8eq8",
     week: "T5 M16",
     weekNum: 16,
     titleBm: "4.1b Fleming Kiri",
@@ -882,6 +896,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "MGtIdnJ3TFBuQWlRUGFvYmdaWFVfUGJaU3NRT00wTzIx",
+    youtubeId: "dzWtuWLjaEs",
     week: "T5 M17",
     weekNum: 17,
     titleBm: "4.2 Induksi Elektromagnet",
@@ -896,6 +911,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "eGhaS1FtY1UyQmh1cGg0U1JPM1JCYWtjcWczOUVHQ2Yx",
+    youtubeId: "Sbu96-gv9p0",
     week: "T5 M18",
     weekNum: 18,
     titleBm: "4.3a Transformer",
@@ -910,6 +926,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "SDl2V00yVjNzZ0R6ZXlIZEhraC1yVXlZcTlSb2c0a0Ux",
+    youtubeId: "dZx6d2lZEHs",
     week: "T5 M19",
     weekNum: 19,
     titleBm: "4.3b Transformer",
@@ -924,6 +941,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "UmZ0ZWtHQS1pcm9GSlJxSFI3OHdfTGhaLXh6U1I2Ylox",
+    youtubeId: "PYRmPjNHwsU",
     week: "T5 M20",
     weekNum: 20,
     titleBm: "5.1 Elektron",
@@ -938,6 +956,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "U3VWZmVkaHJPVGFPeVcwYm1aUkdWd0lRbnBFQWhmd2Qx",
+    youtubeId: "E2Tx1Kna30Y",
     week: "T5 M21",
     weekNum: 21,
     titleBm: "5.2 Diod Semikonduktor",
@@ -952,6 +971,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "UllkYjc1SE1ac3Y5ZkVCRWhKV0NabG1JdElQQWRGSksx",
+    youtubeId: "hsipfTyLKJ4",
     week: "T5 M22",
     weekNum: 22,
     titleBm: "5.3 Transistor",
@@ -966,6 +986,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "eUNCZTdGUlVFOEVrbnlvYXBFLUg1Zmx0NW1YUzB2V2kx",
+    youtubeId: "SSGS1Quwduw",
     week: "T5 M23",
     weekNum: 23,
     titleBm: "6.1a Reputan Radioaktif",
@@ -980,6 +1001,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "VlRpT0tOeGFZVXZyYmtZZkhmdkdaeDVFQXZBZTBEMUcx",
+    youtubeId: "GbbhAtx_joA",
     week: "T5 M24",
     weekNum: 24,
     titleBm: "6.1b Reputan Radioaktif & Separuh Hayat",
@@ -994,6 +1016,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "WlJxdWY5VVMtRnRCTVBHZnRuTjRyRWh5bjdjSTlLTUwx",
+    youtubeId: "lUq8MODvUsk",
     week: "T5 M25",
     weekNum: 25,
     titleBm: "6.2a Tenaga Nuklear",
@@ -1008,6 +1031,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "eWhaV3lVWllReXlYSXBKTlpac2VlZ2hkQjVBN3ZGakMx",
+    youtubeId: "Uq30VALZpjA",
     week: "T5 M26",
     weekNum: 26,
     titleBm: "6.2b Tenaga Nuklear & Pelakuran",
@@ -1022,6 +1046,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "NmhLbFVNTUJFTGZsZDdpVFFuUjVVb0YzVzNEaUN0QnIx",
+    youtubeId: "zJNonpUorSA",
     week: "T5 M27",
     weekNum: 27,
     titleBm: "7.1a Teori Kuantum Cahaya",
@@ -1036,6 +1061,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "NTJiQThCU2lITHRZWHAyblp2dU1HUEZnUGVlbHpXN1Mx",
+    youtubeId: "XYwzTA4k85k",
     week: "T5 M28",
     weekNum: 28,
     titleBm: "7.1b Teori Kuantum Cahaya",
@@ -1050,6 +1076,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "dF9xZzZ1N1VLbDhzWGdNU05KS3poOEt0S3JOT1NCU0Ix",
+    youtubeId: "-CQ0VOdPvGM",
     week: "T5 M29",
     weekNum: 29,
     titleBm: "7.2 Kesan Fotoelektrik",
@@ -1064,6 +1091,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "aXdpU1RkVFR4T2k1LWZSM3BTSWNqTzZKUEtDcEJPZGYx",
+    youtubeId: "tpAkC22rMZ4",
     week: "T5 M30",
     weekNum: 30,
     titleBm: "7.3a Fotoelektrik Einstein",
@@ -1078,6 +1106,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "X241ZXg0ZElMM3E3ejNNcGwzTUxzUDJoN2V2Vms4Wnox",
+    youtubeId: "vv8D9OFJYwg",
     week: "T5 M31",
     weekNum: 31,
     titleBm: "7.3b Fotoelektrik Einstein & Aplikasi",
@@ -1092,6 +1121,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "ZEhRM01RYWlqeGlVRmhydnVudzdXdl9ZV2RwMFdlZEEx",
+    youtubeId: "5ziCKDRiKN0",
     week: "T5 M32",
     weekNum: 32,
     titleBm: "2.2 Graf Gerakan Linear & Jatuh Bebas Ulangkaji",
@@ -1106,6 +1136,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "Q0F6ZXA1cXhSSjVhYXNnY3hneG5GMExZZW5ZTzBIaHkx",
+    youtubeId: "X7AM5HY6rao",
     week: "T5 M33",
     weekNum: 33,
     titleBm: "3.1b Daya Memusat & Gerakan Membulat Ulangkaji",
@@ -1120,6 +1151,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "MEF3T2VLZXYta2ZLaFlQdFEtMHRHR0JaTzBMVGgtM2Ex",
+    youtubeId: "3LQFiZiZFN4",
     week: "T5 M34",
     weekNum: 34,
     titleBm: "4.3 Haba Pendam Tentu Ulangkaji",
@@ -1134,6 +1166,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "UW14b1YxR0s3Yk1hVXVvREktS2ZwTWhYUmFoNkhpZngx",
+    youtubeId: "pxybkH01Azk",
     week: "T5 M35",
     weekNum: 35,
     titleBm: "4.4 Hukum Gas Ulangkaji",
@@ -1148,6 +1181,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "eHMyQ2JYbkRra0pRMzFfTlhBM2czWld5VlVtMUdTdzYx",
+    youtubeId: "fiU62dc28CQ",
     week: "T5 M36",
     weekNum: 36,
     titleBm: "5.1 Asas Gelombang, 5.2 Pelebapan & Resonans",
@@ -1162,6 +1196,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "WXphOHQ5cTM1dVRweFFyNmFUaW43WUYtQVhfMnJmQmQx",
+    youtubeId: "IfscyIktgKY",
     week: "T5 M37",
     weekNum: 37,
     titleBm: "5.3 Pantulan Gelombang Ulangkaji",
@@ -1176,6 +1211,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "UkhPUFhQbFBfdGdGWEEtR19ma2VwTHk3cWY5WG9HblEx",
+    youtubeId: "LLSqz1_m70c",
     week: "T5 M38",
     weekNum: 38,
     titleBm: "Ulangkaji Percubaan SPM 1",
@@ -1190,6 +1226,7 @@ export const rawForm5Videos = [
   },
   {
     driveId: "LWp1N1lvUm5NRlA0QTJXNTZ0M1VLaTNueGU1Z2U2elUx",
+    youtubeId: "vhdn3hN5dEI",
     week: "T5 M39",
     weekNum: 39,
     titleBm: "Ulangkaji Percubaan SPM 2",
