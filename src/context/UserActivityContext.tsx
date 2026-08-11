@@ -56,9 +56,24 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         try { setWatchHistory(JSON.parse(storedHistory)); } catch (e) {}
       }
 
+      const sanitizeVideoStats = (stats: any): VideoStatsMap => {
+        if (!stats) return {};
+        const sanitized: VideoStatsMap = {};
+        for (const [key, val] of Object.entries(stats)) {
+          const stat = val as VideoStat;
+          // Heal corrupted repeats (nobody watches a video 50+ times realistically)
+          if (stat.repeats > 50) {
+            stat.repeats = 0;
+            stat.totalTimeWatched = 0; // Reset corrupted time too
+          }
+          sanitized[key] = stat;
+        }
+        return sanitized;
+      };
+
       const storedStats = localStorage.getItem(`videoStats_${user.uid}`);
       if (storedStats) {
-        try { setVideoStats(JSON.parse(storedStats)); } catch (e) {}
+        try { setVideoStats(sanitizeVideoStats(JSON.parse(storedStats))); } catch (e) {}
       }
 
       // 2. Firebase Sync
@@ -69,7 +84,7 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
           const data = docSnap.data();
           if (data.bookmarks) setBookmarks(data.bookmarks);
           if (data.watchHistory) setWatchHistory(data.watchHistory);
-          if (data.videoStats) setVideoStats(data.videoStats);
+          if (data.videoStats) setVideoStats(sanitizeVideoStats(data.videoStats));
         }
         dataLoadedFromFirebase.current = true; // Mark as loaded
       });
