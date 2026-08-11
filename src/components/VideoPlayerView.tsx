@@ -143,6 +143,16 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
+  const is20MinStart = currentLesson?.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
+  const is18MinStart = currentLesson?.titleBm === "6.1a Reputan Radioaktif";
+  const is15MinStart = currentLesson?.titleBm === "5.1 Asas Gelombang" || currentLesson?.titleBm === "1.1 Daya Paduan";
+  const is14m40sStart = currentLesson?.titleBm === "4.4b Hukum Gas Ulangkaji";
+  const is12m40sStart = currentLesson?.titleBm === "6.1 Pembiasan Cahaya";
+  const is13mStart = currentLesson?.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
+  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+  
+  const watchableDuration = Math.max(1, totalSeconds > 0 ? totalSeconds - minStartSecs : 600);
+
   const [showCover, setShowCover] = useState(true);
   const [showEndCover, setShowEndCover] = useState(false);
   const [currentStartSeconds, setCurrentStartSeconds] = useState(600);
@@ -163,14 +173,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
       
       // 1. Determine absolute minimum start time (skip Tavis intro)
-      const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-      const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-      const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-      const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-      const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-      const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-      const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
-
       // 2. Get saved progress if any
       const localSavedTime = localStorage.getItem(`physflix_resume_${currentLesson.id}`);
       const firebaseSavedTime = videoStats[currentLesson.id]?.lastWatchedSeconds;
@@ -264,30 +266,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return () => {
       if (currentLesson && currentLesson.id) {
         const timeSpent = Math.floor((Date.now() - videoOpenedAt.current) / 1000);
-        const parts = currentLesson.duration.split(":");
-        let durationInSeconds = 600; // fallback 10 mins
-        if (parts.length === 3) {
-          durationInSeconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
-        } else if (parts.length === 2) {
-          durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
-        }
-        
-        // Calculate watchable duration
-        const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-        const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-        const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-        const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-        const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-        const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-        const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
-        
-        const watchableDuration = Math.max(1, durationInSeconds - minStartSecs);
-        
-        updateVideoProgress(currentLesson.id, timeSpent, watchableDuration);
-        
         // Save exact resume time to Firebase on unmount
         const currentProgress = currentStartSeconds + timeSpent;
-        updateResumeTime(currentLesson.id, currentProgress);
+        updateResumeTime(currentLesson.id, currentProgress, minStartSecs, watchableDuration);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -311,7 +292,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
        
        // 2. Sync to Firebase (via context) every 12 ticks (60 seconds)
        if (ticks >= 12) {
-         updateResumeTime(currentLesson.id, currentProgress);
+         updateResumeTime(currentLesson.id, currentProgress, minStartSecs, watchableDuration);
          ticks = 0;
        }
     }, 5000);
@@ -969,17 +950,11 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                 <button
                   onClick={() => {
                     const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-                    const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-                    const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-                    const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-                    const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-                    const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-                    const startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
                     const startParam = is20MinStart ? "1200s" : (is18MinStart ? "1080s" : (is15MinStart ? "900s" : (is14m40sStart ? "880s" : (is13mStart ? "780s" : (is12m40sStart ? "760s" : "600s")))));
 
                     setShowEndCover(false);
                     setShowCover(!isMobileDevice && currentLesson.youtubeId ? false : true); // Reset the hole punch cover
-                    setCurrentStartSeconds(startSecs); // Reset timer
+                    setCurrentStartSeconds(minStartSecs); // Reset timer
                     videoOpenedAt.current = Date.now(); // Reset elapsed time
                     
                     if (currentLesson.youtubeId) {

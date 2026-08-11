@@ -24,7 +24,7 @@ interface UserActivityContextType {
   addToHistory: (driveId: string) => void;
   isBookmarked: (driveId: string) => boolean;
   updateVideoProgress: (driveId: string, timeSpentInSeconds: number, durationInSeconds: number) => void;
-  updateResumeTime: (driveId: string, timeInSeconds: number) => void;
+  updateResumeTime: (driveId: string, timeInSeconds: number, minStartSecs: number, watchableDuration: number) => void;
   incrementRepeat: (driveId: string) => void;
 }
 
@@ -184,14 +184,27 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   };
 
-  const updateResumeTime = (driveId: string, timeInSeconds: number) => {
+  const updateResumeTime = (driveId: string, timeInSeconds: number, minStartSecs: number, watchableDuration: number) => {
     setVideoStats((prev) => {
       const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
+      
+      const watchedAmount = Math.max(0, timeInSeconds - minStartSecs);
+      let newCompletion = Math.round((watchedAmount / watchableDuration) * 100);
+      if (newCompletion > 100) newCompletion = 100;
+
+      // Auto-heal falsely inflated completion percentage
+      if (current.completionPercentage === 100 && newCompletion < 95) {
+        // Allow downgrade
+      } else if (newCompletion < current.completionPercentage) {
+        newCompletion = current.completionPercentage;
+      }
+      
       return {
         ...prev,
         [driveId]: {
           ...current,
-          lastWatchedSeconds: timeInSeconds
+          lastWatchedSeconds: timeInSeconds,
+          completionPercentage: newCompletion
         }
       };
     });
