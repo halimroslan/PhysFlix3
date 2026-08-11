@@ -259,7 +259,7 @@ function MainDashboard() {
           ) : currentTab === "analytics" ? (
             <AnalyticBoard />
           ) : currentTab === "scoreboard" ? (
-            <ScoreBoardView />
+            <ScoreBoardView onPlayLesson={handlePlayLesson} />
           ) : currentTab === "topics" ? (
             <div className="space-y-10">
               <div className="flex items-center space-x-3 border-b border-slate-800 pb-4">

@@ -7,7 +7,7 @@ import { useUserActivity } from "../context/UserActivityContext";
 import { useLanguage } from "../context/LanguageContext";
 import { ArrowLeft, RotateCw } from "lucide-react";
 
-export const ScoreBoardView = () => {
+export const ScoreBoardView = ({ onPlayLesson }: { onPlayLesson: (lesson: VideoLesson) => void }) => {
   const { lang } = useLanguage();
   const { videoStats } = useUserActivity();
   const [selectedForm, setSelectedForm] = useState<4 | 5 | null>(null);
@@ -115,7 +115,11 @@ export const ScoreBoardView = () => {
             const COLORS = [primaryColor, "#1e293b"];
 
             return (
-              <div key={lesson.id} className="bg-slate-900 p-5 rounded-2xl border border-white/5 flex flex-col items-center shadow-lg hover:bg-slate-800/80 transition-colors">
+              <div 
+                key={lesson.id} 
+                className="bg-slate-900 p-5 rounded-2xl border border-white/5 flex flex-col items-center shadow-lg hover:bg-slate-800/80 transition-colors cursor-pointer active:scale-95"
+                onClick={() => onPlayLesson(lesson)}
+              >
                 <div className="w-24 h-24 relative mb-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
