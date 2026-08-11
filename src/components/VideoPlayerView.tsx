@@ -69,7 +69,12 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const [iframeSrc, setIframeSrc] = useState("");
 
   useEffect(() => {
-    setIsMobileDevice(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    setIsMobileDevice(isMobile);
+    if (!isMobile && currentLesson?.youtubeId) {
+      setShowCover(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleFullscreen = () => {
@@ -147,7 +152,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   // Derived state to INSTANTLY reset covers when lesson changes (prevents flash of background)
   if (currentLesson && currentLesson.id !== prevLessonId) {
     setPrevLessonId(currentLesson.id);
-    setShowCover(true);
+    setShowCover(!isMobileDevice && currentLesson.youtubeId ? false : true);
     setShowEndCover(false);
   }
 
@@ -956,7 +961,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     const startParam = is20MinStart ? "1200s" : (is18MinStart ? "1080s" : (is15MinStart ? "900s" : (is14m40sStart ? "880s" : (is13mStart ? "780s" : (is12m40sStart ? "760s" : "600s")))));
 
                     setShowEndCover(false);
-                    setShowCover(true); // Reset the hole punch cover
+                    setShowCover(!isMobileDevice && currentLesson.youtubeId ? false : true); // Reset the hole punch cover
                     setCurrentStartSeconds(startSecs); // Reset timer
                     videoOpenedAt.current = Date.now(); // Reset elapsed time
                     
