@@ -159,7 +159,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   useEffect(() => {
     if (currentLesson && currentLesson.id) {
       addToHistory(currentLesson.id);
-      incrementRepeat(currentLesson.id);
       videoOpenedAt.current = Date.now();
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
       
@@ -270,7 +269,19 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         if (parts.length === 2) {
           durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
         }
-        updateVideoProgress(currentLesson.id, timeSpent, durationInSeconds);
+        
+        // Calculate watchable duration
+        const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
+        const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
+        const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
+        const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
+        const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
+        const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
+        const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+        
+        const watchableDuration = Math.max(1, durationInSeconds - minStartSecs);
+        
+        updateVideoProgress(currentLesson.id, timeSpent, watchableDuration);
         
         // Save exact resume time to Firebase on unmount
         const currentProgress = currentStartSeconds + timeSpent;
