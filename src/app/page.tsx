@@ -232,11 +232,11 @@ function MainDashboard() {
           ) : currentTab === "mylist" ? (
             <div className="space-y-6">
               <div className="flex items-center space-x-3 border-b border-slate-800 pb-4">
-                <Bookmark className="w-6 h-6 text-amber-500" />
+                <Bookmark className="w-6 h-6 text-red-500" />
                 <h2 className="text-2xl font-extrabold text-white">
                   {lang === "bm" ? "Senarai Saya" : "My List"}
                 </h2>
-                <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-extrabold rounded-full">
+                <span className="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-extrabold rounded-full">
                   {myListLessons.length} Video
                 </span>
               </div>

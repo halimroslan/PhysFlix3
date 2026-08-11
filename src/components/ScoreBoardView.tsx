@@ -30,14 +30,14 @@ export const ScoreBoardView = ({ onPlayLesson }: { onPlayLesson: (lesson: VideoL
       { name: "Completed", value: completion },
       { name: "Remaining", value: 100 - completion },
     ];
-    const COLORS = ["#0ea5e9", "#1e293b"]; // Sky blue and dark slate
+    const COLORS = ["#ef4444", "#1e293b"]; // Red and dark slate
 
     return (
       <div 
-        className="flex flex-col items-center bg-slate-900/50 p-6 rounded-2xl border border-white/5 cursor-pointer hover:bg-slate-800/50 hover:border-sky-500/30 transition-all shadow-xl group w-full max-w-sm"
+        className="flex flex-col items-center bg-slate-900/50 p-6 rounded-2xl border border-white/5 cursor-pointer hover:bg-slate-800/50 hover:border-red-500/30 transition-all shadow-xl group w-full max-w-sm"
         onClick={() => setSelectedForm(form)}
       >
-        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-sky-400 transition-colors">
+        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-red-400 transition-colors">
           {lang === "bm" ? `Tingkatan ${form}` : `Form ${form}`}
         </h3>
         <div className="w-56 h-56 relative">
@@ -61,13 +61,13 @@ export const ScoreBoardView = ({ onPlayLesson }: { onPlayLesson: (lesson: VideoL
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-4xl font-black text-sky-400 drop-shadow-md">{completion}%</span>
+            <span className="text-4xl font-black text-red-500 drop-shadow-md">{completion}%</span>
           </div>
         </div>
         <p className="text-sm text-slate-400 mt-4 font-medium text-center">
           {lang === "bm" ? "Peratusan Video Diselesaikan" : "Video Completion Percentage"}
         </p>
-        <div className="mt-3 text-xs text-sky-500 opacity-0 group-hover:opacity-100 transition-opacity flex items-center">
+        <div className="mt-3 text-xs text-red-500 opacity-0 group-hover:opacity-100 transition-opacity flex items-center">
           <span>{lang === "bm" ? "Klik untuk butiran" : "Click for details"}</span>
         </div>
       </div>
@@ -81,7 +81,7 @@ export const ScoreBoardView = ({ onPlayLesson }: { onPlayLesson: (lesson: VideoL
       <div className="animate-in fade-in slide-in-from-right-4 duration-300 pb-20">
         <button 
           onClick={() => setSelectedForm(null)}
-          className="flex items-center text-sky-400 hover:text-sky-300 mb-8 font-bold bg-sky-500/10 px-4 py-2 rounded-full border border-sky-500/20 w-fit transition-colors"
+          className="flex items-center text-red-500 hover:text-red-400 mb-8 font-bold bg-red-500/10 px-4 py-2 rounded-full border border-red-500/20 w-fit transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           {lang === "bm" ? "Kembali ke Skor Utama" : "Back to Main Score"}
@@ -166,7 +166,7 @@ export const ScoreBoardView = ({ onPlayLesson }: { onPlayLesson: (lesson: VideoL
       {!selectedForm ? (
         <div className="animate-in fade-in zoom-in-95 duration-500 py-10">
           <div className="flex flex-col items-center mb-12 text-center px-4">
-            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-rose-600 tracking-tight">
               {lang === "bm" ? "Papan Skor" : "Score Board"}
             </h2>
             <p className="text-slate-400 mt-4 max-w-lg mx-auto text-sm md:text-base">
