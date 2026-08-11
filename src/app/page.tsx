@@ -356,10 +356,12 @@ function MainDashboard() {
                 onPlay={handlePlayLesson}
               />
               {/* Continue Watching Row */}
-              <ContinueWatching
-                lessons={allVideoLessons}
-                onPlay={handlePlayLesson}
-              />
+              {historyLessons.length > 0 && (
+                <ContinueWatching
+                  lessons={historyLessons}
+                  onPlay={handlePlayLesson}
+                />
+              )}
               {/* Top Picks for You Categories */}
               <TopPicks onSelectTopic={handleSelectTopic} />
               {/* SPM Revision Collections */}
