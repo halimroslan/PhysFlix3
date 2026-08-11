@@ -637,7 +637,8 @@ export const rawForm4Videos = [
     keyConceptsDlp: ["Cermin Cembung", "Cermin Cekung", "Indeks Pembiasan", "Sudut Genting", "Pantulan Dalam Penuh"],
   },
   {
-    driveId: "ulangkaji_6_2_video",
+    driveId: "ulangkaji_pantulan_dalam_penuh",
+    youtubeId: "TUARrUaFKx8",
     week: "T4 M36",
     weekNum: 36.6,
     titleBm: "Ulangkaji - 6.2 Pantulan Dalam Penuh",
@@ -646,10 +647,9 @@ export const rawForm4Videos = [
     chapterNum: 6,
     chapterBm: "Cahaya dan Optik",
     chapterDlp: "Light and Optics",
-    youtubeId: "ey6RC-GTwp4",
-    duration: "1:22:15",
-    keyConceptsBm: ["Pantulan Dalam Penuh", "Sudut Genting", "Logamaya", "Prisma"],
-    keyConceptsDlp: ["Total Internal Reflection", "Critical Angle", "Mirage", "Prism"],
+    duration: "1:00:00",
+    keyConceptsBm: ["Pantulan Dalam Penuh", "Sudut Genting", "Indeks Pembiasan"],
+    keyConceptsDlp: ["Total Internal Reflection", "Critical Angle", "Refractive Index"],
   },
   {
     driveId: "dUpqNGhhZVRDbWNWUzg0VUxHWDB1T2tfZVlPdHlraVIx",
