@@ -171,8 +171,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const is1m42sStart = currentLesson?.week === "T5 M39";
   const is1m32sStart = currentLesson?.week === "T5 M38";
   const is1m10sStart = currentLesson?.titleBm === "5.3 Transistor";
+  const is0sStart = currentLesson?.week === "Ujian Amali Sains (Fizik)";
 
-  const minStartSecs = is22m0sStart ? 1320 : (is20MinStart ? 1200 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m45sStart ? 945 : (is15m16sStart ? 916 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m54sStart ? 834 : (is13m46sStart ? 826 : (is13m35sStart ? 815 : (is13m25sStart ? 805 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is7m25sStart ? 445 : (is6m15sStart ? 375 : (is5m11sStart ? 311 : (is4m10sStart ? 250 : (is3m33sStart ? 213 : (is3m31sStart ? 211 : (is3m30sStart ? 210 : (is3m22sStart ? 202 : (is3m15sStart ? 195 : (is2m10sStart ? 130 : (is1m42sStart ? 102 : (is1m32sStart ? 92 : (is1m10sStart ? 70 : 600)))))))))))))))))))))))))));
+  const minStartSecs = is22m0sStart ? 1320 : (is20MinStart ? 1200 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m45sStart ? 945 : (is15m16sStart ? 916 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m54sStart ? 834 : (is13m46sStart ? 826 : (is13m35sStart ? 815 : (is13m25sStart ? 805 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is7m25sStart ? 445 : (is6m15sStart ? 375 : (is5m11sStart ? 311 : (is4m10sStart ? 250 : (is3m33sStart ? 213 : (is3m31sStart ? 211 : (is3m30sStart ? 210 : (is3m22sStart ? 202 : (is3m15sStart ? 195 : (is2m10sStart ? 130 : (is1m42sStart ? 102 : (is1m32sStart ? 92 : (is1m10sStart ? 70 : (is0sStart ? 0 : 600))))))))))))))))))))))))))));
   
   const watchableDuration = Math.max(1, totalSeconds > 0 ? totalSeconds - minStartSecs : 600);
 
