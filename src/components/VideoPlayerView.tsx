@@ -143,6 +143,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
+  const is2m10sStart = currentLesson?.titleBm === "5.1 Elektron";
   const is20MinStart = currentLesson?.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
   const is18MinStart = currentLesson?.titleBm === "6.1a Reputan Radioaktif";
   const is4m10sStart = currentLesson?.titleBm === "4.3b Transformer";
@@ -154,7 +155,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const is13m46sStart = currentLesson?.titleBm === "3.2b Rintangan";
   const is13mStart = currentLesson?.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
   const is12m40sStart = currentLesson?.titleBm === "6.1 Pembiasan Cahaya";
-  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m46sStart ? 826 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is4m10sStart ? 250 : 600))))))))));
+  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m46sStart ? 826 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is4m10sStart ? 250 : (is2m10sStart ? 130 : 600)))))))))));
   
   const watchableDuration = Math.max(1, totalSeconds > 0 ? totalSeconds - minStartSecs : 600);
 
