@@ -149,7 +149,12 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     setVideoStats((prev) => {
       const current = prev[driveId] || { totalTimeWatched: 0, repeats: 0, completionPercentage: 0 };
-      const newTotalTime = current.totalTimeWatched + timeSpentInSeconds;
+      let newTotalTime = current.totalTimeWatched + timeSpentInSeconds;
+      
+      // Auto-heal corrupted data from previous infinite loop bug
+      if (newTotalTime > watchableDuration * 50) {
+        newTotalTime = watchableDuration; // Reset to 1 completion
+      }
       
       // Calculate completion, max 100%
       let newCompletion = Math.round((newTotalTime / watchableDuration) * 100);
@@ -162,7 +167,7 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
       
       // Calculate repeats dynamically (1 repeat for every 95% of watchable duration)
       const calculatedRepeats = Math.floor(newTotalTime / (watchableDuration * 0.95));
-      const newRepeats = calculatedRepeats > current.repeats ? calculatedRepeats : current.repeats;
+      const newRepeats = calculatedRepeats > current.repeats || current.repeats > 50 ? calculatedRepeats : current.repeats;
 
       return {
         ...prev,

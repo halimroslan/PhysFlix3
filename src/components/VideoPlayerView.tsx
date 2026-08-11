@@ -288,7 +288,8 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         updateResumeTime(currentLesson.id, currentProgress);
       }
     };
-  }, [currentLesson, updateVideoProgress, updateResumeTime, currentStartSeconds]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLesson, currentStartSeconds]);
 
   // Track and save video progress continuously every 5 seconds for Auto-Resume
   useEffect(() => {
@@ -314,7 +315,8 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     }, 5000);
     
     return () => clearInterval(interval);
-  }, [currentLesson, showCover, currentStartSeconds, updateResumeTime]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLesson, showCover, currentStartSeconds]);
 
   // Manage end cover timer based on playback state (showCover)
   useEffect(() => {
