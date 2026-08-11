@@ -143,21 +143,29 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
     return 0;
   })();
 
-  const is1m10sStart = currentLesson?.titleBm === "5.3 Transistor";
-  const is3m33sStart = currentLesson?.titleBm === "5.2 Diod Semikonduktor";
-  const is2m10sStart = currentLesson?.titleBm === "5.1 Elektron";
+  const is22m0sStart = currentLesson?.titleBm === "6.1a Reputan Radioaktif";
   const is20MinStart = currentLesson?.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-  const is18MinStart = currentLesson?.titleBm === "6.1a Reputan Radioaktif";
-  const is4m10sStart = currentLesson?.titleBm === "4.3b Transformer";
   const is17MinStart = currentLesson?.titleBm === "4.2 Induksi Elektromagnet";
   const is16m41sStart = currentLesson?.titleBm === "3.4 Tenaga & Kuasa Elektrik";
+  const is15m45sStart = currentLesson?.titleBm === "6.1b Reputan Radioaktif & Separuh Hayat";
+  const is15m16sStart = currentLesson?.titleBm === "7.1a Teori Kuantum Cahaya";
   const is15m14sStart = currentLesson?.titleBm === "4.1b Fleming Kiri";
   const is15MinStart = currentLesson?.titleBm === "5.1 Asas Gelombang" || currentLesson?.titleBm === "1.1 Daya Paduan";
-  const is14m40sStart = currentLesson?.titleBm === "4.4b Hukum Gas Ulangkaji";
+  const is14m40sStart = currentLesson?.titleBm === "4.4b Hukum Gas Ulangkaji" || currentLesson?.titleBm === "7.3b Fotoelektrik Einstein & Aplikasi";
   const is13m46sStart = currentLesson?.titleBm === "3.2b Rintangan";
+  const is13m35sStart = currentLesson?.titleBm === "7.2 Kesan Fotoelektrik";
+  const is13m25sStart = currentLesson?.titleBm === "7.1b Teori Kuantum Cahaya";
   const is13mStart = currentLesson?.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
   const is12m40sStart = currentLesson?.titleBm === "6.1 Pembiasan Cahaya";
-  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m46sStart ? 826 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is4m10sStart ? 250 : (is3m33sStart ? 213 : (is2m10sStart ? 130 : (is1m10sStart ? 70 : 600)))))))))))));
+  const is5m11sStart = currentLesson?.titleBm === "7.3a Fotoelektrik Einstein";
+  const is4m10sStart = currentLesson?.titleBm === "4.3b Transformer";
+  const is3m33sStart = currentLesson?.titleBm === "5.2 Diod Semikonduktor";
+  const is3m30sStart = currentLesson?.titleBm === "6.2a Tenaga Nuklear";
+  const is3m15sStart = currentLesson?.titleBm === "6.2b Tenaga Nuklear & Pelakuran";
+  const is2m10sStart = currentLesson?.titleBm === "5.1 Elektron";
+  const is1m10sStart = currentLesson?.titleBm === "5.3 Transistor";
+
+  const minStartSecs = is22m0sStart ? 1320 : (is20MinStart ? 1200 : (is17MinStart ? 1020 : (is16m41sStart ? 1001 : (is15m45sStart ? 945 : (is15m16sStart ? 916 : (is15m14sStart ? 914 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m46sStart ? 826 : (is13m35sStart ? 815 : (is13m25sStart ? 805 : (is13mStart ? 780 : (is12m40sStart ? 760 : (is5m11sStart ? 311 : (is4m10sStart ? 250 : (is3m33sStart ? 213 : (is3m30sStart ? 210 : (is3m15sStart ? 195 : (is2m10sStart ? 130 : (is1m10sStart ? 70 : 600))))))))))))))))))));
   
   const watchableDuration = Math.max(1, totalSeconds > 0 ? totalSeconds - minStartSecs : 600);
 
@@ -917,8 +925,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                 
                 <button
                   onClick={() => {
-                    const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-                    const startParam = is20MinStart ? "1200s" : (is18MinStart ? "1080s" : (is15MinStart ? "900s" : (is14m40sStart ? "880s" : (is13mStart ? "780s" : (is12m40sStart ? "760s" : "600s")))));
+                    const startParam = `${minStartSecs}s`;
 
                     setShowEndCover(false);
                     setShowCover(!isMobileDevice && currentLesson.youtubeId ? false : true); // Reset the hole punch cover
