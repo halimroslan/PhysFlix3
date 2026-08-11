@@ -163,23 +163,25 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       videoOpenedAt.current = Date.now();
       coverMountedAt.current = Date.now(); // Reset cover mount timestamp
       
-      // 1. Get saved progress if any
+      // 1. Determine absolute minimum start time (skip Tavis intro)
+      const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
+      const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
+      const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
+      const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
+      const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
+      const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
+      const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+
+      // 2. Get saved progress if any
       const localSavedTime = localStorage.getItem(`physflix_resume_${currentLesson.id}`);
       const firebaseSavedTime = videoStats[currentLesson.id]?.lastWatchedSeconds;
-      let startSecs = 0;
       
-      if (localSavedTime) {
+      let startSecs = minStartSecs;
+      
+      if (localSavedTime && parseInt(localSavedTime) > minStartSecs) {
         startSecs = parseInt(localSavedTime);
-      } else if (firebaseSavedTime) {
+      } else if (firebaseSavedTime && firebaseSavedTime > minStartSecs) {
         startSecs = firebaseSavedTime;
-      } else {
-        const is20MinStart = currentLesson.titleBm === "2.2b Graf Gerakan Linear & 2.3 Jatuh Bebas Ulangkaji";
-        const is18MinStart = currentLesson.titleBm === "6.1a Reputan Radioaktif";
-        const is15MinStart = currentLesson.titleBm === "5.1 Asas Gelombang" || currentLesson.titleBm === "1.1 Daya Paduan";
-        const is14m40sStart = currentLesson.titleBm === "4.4b Hukum Gas Ulangkaji";
-        const is12m40sStart = currentLesson.titleBm === "6.1 Pembiasan Cahaya";
-        const is13mStart = currentLesson.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-        startSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
       }
       
       setCurrentStartSeconds(startSecs); // Reset timer tracking
