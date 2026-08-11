@@ -712,8 +712,8 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               </>
             )}
 
-            {/* Conditional Tavis Censor Block for 6.1a Reputan Radioaktif (V11-X13) */}
-            {currentLesson.titleBm === "6.1a Reputan Radioaktif" && (
+            {/* Conditional Tavis Censor Block for 6.1a Reputan Radioaktif & 6.1b (V11-X13) */}
+            {(currentLesson.titleBm === "6.1a Reputan Radioaktif" || currentLesson.titleBm === "6.1b Reputan Radioaktif & Separuh Hayat") && (
               <div 
                 className="absolute z-20 pointer-events-auto cursor-default bg-[#0a0a0a]"
                 style={{
