@@ -712,6 +712,19 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               </>
             )}
 
+            {/* Conditional Tavis Censor Block for 6.1a Reputan Radioaktif (V11-X13) */}
+            {currentLesson.titleBm === "6.1a Reputan Radioaktif" && (
+              <div 
+                className="absolute z-20 pointer-events-auto cursor-default bg-[#0a0a0a]"
+                style={{
+                  left: '66.666%',    // Col 11 start
+                  top: '80.769%',     // Row V start
+                  width: '20%',       // Col 11 to 13 (3 cols)
+                  height: '11.538%'   // Span 3 rows (V, W, X)
+                }}
+              ></div>
+            )}
+
             {/* Conditional PHYSFLIX Cover for 5.6b Interferens Gelombang */}
             {currentLesson.titleBm === "5.6b Interferens Gelombang" && (
               <div 
