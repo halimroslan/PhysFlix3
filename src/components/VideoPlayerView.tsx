@@ -202,9 +202,12 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       
       let startSecs = minStartSecs;
       
-      if (localSavedTime && parseInt(localSavedTime) > minStartSecs) {
+      // If the saved time is near or past the end of the video, ignore it and restart from skip time
+      const threshold = totalSeconds > 0 ? totalSeconds - 5 : Infinity;
+
+      if (localSavedTime && parseInt(localSavedTime) > minStartSecs && parseInt(localSavedTime) < threshold) {
         startSecs = parseInt(localSavedTime);
-      } else if (firebaseSavedTime && firebaseSavedTime > minStartSecs) {
+      } else if (firebaseSavedTime && firebaseSavedTime > minStartSecs && firebaseSavedTime < threshold) {
         startSecs = firebaseSavedTime;
       }
       
