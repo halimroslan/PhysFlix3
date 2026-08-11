@@ -736,6 +736,19 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               ></div>
             )}
 
+            {/* Conditional Tavis Censor Block for 4.3a Haba Pendam Tentu (PC View D1-E2) */}
+            {currentLesson.titleBm === "4.3a Haba Pendam Tentu" && (
+              <div 
+                className="absolute z-20 pointer-events-auto cursor-default bg-[#0a0a0a] hidden md:block"
+                style={{
+                  left: '0%',         // Col 1 start
+                  top: '11.538%',     // Row D start
+                  width: '13.333%',   // Col 1 to 2 (2 cols)
+                  height: '7.692%'    // Span 2 rows (D to E)
+                }}
+              ></div>
+            )}
+
             {/* Conditional PHYSFLIX Cover for 5.6b Interferens Gelombang */}
             {currentLesson.titleBm === "5.6b Interferens Gelombang" && (
               <div 
