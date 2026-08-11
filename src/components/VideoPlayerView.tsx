@@ -266,7 +266,9 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
         const timeSpent = Math.floor((Date.now() - videoOpenedAt.current) / 1000);
         const parts = currentLesson.duration.split(":");
         let durationInSeconds = 600; // fallback 10 mins
-        if (parts.length === 2) {
+        if (parts.length === 3) {
+          durationInSeconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+        } else if (parts.length === 2) {
           durationInSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
         }
         

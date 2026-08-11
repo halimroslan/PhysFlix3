@@ -160,8 +160,11 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
       let newCompletion = Math.round((newTotalTime / watchableDuration) * 100);
       if (newCompletion > 100) newCompletion = 100;
 
-      // Never decrease completion percentage
-      if (newCompletion < current.completionPercentage) {
+      // Auto-heal falsely inflated completion percentage (from the 1-second watchable bug)
+      if (current.completionPercentage === 100 && newTotalTime < watchableDuration * 0.95) {
+        // Allow downgrade to the correct calculated value
+      } else if (newCompletion < current.completionPercentage) {
+        // Never decrease completion percentage otherwise
         newCompletion = current.completionPercentage;
       }
       
