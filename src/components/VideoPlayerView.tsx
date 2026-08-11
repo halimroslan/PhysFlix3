@@ -147,9 +147,10 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const is18MinStart = currentLesson?.titleBm === "6.1a Reputan Radioaktif";
   const is15MinStart = currentLesson?.titleBm === "5.1 Asas Gelombang" || currentLesson?.titleBm === "1.1 Daya Paduan";
   const is14m40sStart = currentLesson?.titleBm === "4.4b Hukum Gas Ulangkaji";
-  const is12m40sStart = currentLesson?.titleBm === "6.1 Pembiasan Cahaya";
+  const is13m46sStart = currentLesson?.titleBm === "3.2b Rintangan";
   const is13mStart = currentLesson?.titleBm === "6.6b Pembentukan Imej Oleh Cermin Sfera";
-  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600)))));
+  const is12m40sStart = currentLesson?.titleBm === "6.1 Pembiasan Cahaya";
+  const minStartSecs = is20MinStart ? 1200 : (is18MinStart ? 1080 : (is15MinStart ? 900 : (is14m40sStart ? 880 : (is13m46sStart ? 826 : (is13mStart ? 780 : (is12m40sStart ? 760 : 600))))));
   
   const watchableDuration = Math.max(1, totalSeconds > 0 ? totalSeconds - minStartSecs : 600);
 
