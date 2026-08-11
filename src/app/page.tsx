@@ -29,7 +29,7 @@ import { Play, BookOpen, GraduationCap, Search, Loader2, Bookmark, ListVideo, Gr
 function MainDashboard() {
   const { lang } = useLanguage();
   const { user, loading } = useAuth();
-  const { isBookmarked, watchHistory } = useUserActivity();
+  const { isBookmarked, watchHistory, videoStats } = useUserActivity();
   const [currentTab, setCurrentTab] = useState("home");
   const [selectedLesson, setSelectedLesson] = useState<VideoLesson | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -141,6 +141,15 @@ function MainDashboard() {
               ))}
             </div>
           )}
+          {/* Progress Bar */}
+          {videoStats[item.id]?.completionPercentage !== undefined && videoStats[item.id].completionPercentage > 0 && (
+            <div className="w-full h-1 bg-slate-800 rounded-full mt-2 overflow-hidden">
+              <div 
+                className="h-full bg-red-500 rounded-full" 
+                style={{ width: `${videoStats[item.id].completionPercentage}%` }}
+              />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -148,8 +157,16 @@ function MainDashboard() {
 
   const myListLessons = allVideoLessons.filter((l) => isBookmarked(l.id));
   const historyLessons = [...allVideoLessons]
-    .filter((l) => watchHistory.includes(l.id))
-    .sort((a, b) => watchHistory.indexOf(a.id) - watchHistory.indexOf(b.id));
+    .filter((l) => watchHistory.includes(l.id) || videoStats[l.id]?.lastUpdatedTimestamp)
+    .sort((a, b) => {
+      const timeA = videoStats[a.id]?.lastUpdatedTimestamp || 0;
+      const timeB = videoStats[b.id]?.lastUpdatedTimestamp || 0;
+      // If neither has a timestamp (old data), fall back to watchHistory array order
+      if (timeA === 0 && timeB === 0) {
+        return watchHistory.indexOf(a.id) - watchHistory.indexOf(b.id);
+      }
+      return timeB - timeA;
+    });
 
   const spmLessons = allVideoLessons.filter((l) => {
     const searchString = `${l.titleBm.toLowerCase()} ${l.keyConceptsBm.join(" ").toLowerCase()} ${l.titleDlp.toLowerCase()}`;

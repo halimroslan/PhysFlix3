@@ -10,6 +10,7 @@ export interface VideoStat {
   repeats: number;
   completionPercentage: number;
   lastWatchedSeconds?: number;
+  lastUpdatedTimestamp?: number;
 }
 
 export interface VideoStatsMap {
@@ -178,7 +179,8 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
           ...current,
           totalTimeWatched: newTotalTime,
           completionPercentage: newCompletion,
-          repeats: newRepeats
+          repeats: newRepeats,
+          lastUpdatedTimestamp: Date.now()
         }
       };
     });
@@ -204,7 +206,8 @@ export const UserActivityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         [driveId]: {
           ...current,
           lastWatchedSeconds: timeInSeconds,
-          completionPercentage: newCompletion
+          completionPercentage: newCompletion,
+          lastUpdatedTimestamp: Date.now()
         }
       };
     });
