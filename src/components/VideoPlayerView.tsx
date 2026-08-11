@@ -684,7 +684,7 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
             </div>
 
             {/* Mobile Landscape Fullscreen Controller Shields (Red Grid Based) */}
-            {!bypassShields && isFullscreen && isMobileDevice && (
+            {!bypassShields && isFullscreen && isMobileDevice && currentLesson.titleBm !== "4.3a Haba Pendam Tentu" && (
               <>
                 {/* Block 1: P10-S15 */}
                 <div 
