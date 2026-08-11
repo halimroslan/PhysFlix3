@@ -645,32 +645,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
               </div>
             </div>
 
-            {/* Mobile Landscape Fullscreen Controller Shields (Red Grid Based) */}
-            {!bypassShields && isFullscreen && isMobileDevice && currentLesson.titleBm !== "4.3a Haba Pendam Tentu" && (
-              <>
-                {/* Block 1: P10-S15 */}
-                <div 
-                  className="absolute z-20 pointer-events-auto cursor-default bg-[#0a0a0a] hidden landscape:block"
-                  style={{
-                    left: '60%',      // Col 10 start
-                    top: '57.692%',   // Row P start
-                    width: '40%',     // Col 10 to 15 (6 cols)
-                    height: '15.384%' // Span 4 rows (P to S)
-                  }}
-                ></div>
-                {/* Block 2: V8-Z12 */}
-                <div 
-                  className="absolute z-20 pointer-events-auto cursor-default bg-[#0a0a0a] hidden landscape:block"
-                  style={{
-                    left: '46.666%',  // Col 8 start
-                    top: '80.769%',   // Row V start
-                    width: '33.333%', // Col 8 to 12 (5 cols)
-                    height: '19.23%'  // Span 5 rows (V to Z)
-                  }}
-                ></div>
-              </>
-            )}
-
             {/* Mobile Bottom Controls Shield - Blocks CC, Gear, Fullscreen buttons on Drive player */}
             {!bypassShields && !currentLesson.youtubeId && (
               <div className="absolute left-0 right-0 bottom-0 z-20 pointer-events-auto cursor-default bg-black/95 md:hidden" style={{ height: '15%' }}></div>
