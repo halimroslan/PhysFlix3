@@ -156,7 +156,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
   const [showCover, setShowCover] = useState(true);
   const [showEndCover, setShowEndCover] = useState(false);
   const [currentStartSeconds, setCurrentStartSeconds] = useState(600);
-  const [showMobileTip, setShowMobileTip] = useState(false);
   const [prevLessonId, setPrevLessonId] = useState(currentLesson?.id);
 
   // Derived state to INSTANTLY reset covers when lesson changes (prevents flash of background)
@@ -240,26 +239,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
       window.removeEventListener("blur", handleBlur);
     };
   }, []);
-
-  // Manage mobile interaction tip
-  useEffect(() => {
-    let showTimer: NodeJS.Timeout;
-    let hideTimer: NodeJS.Timeout;
-    
-    if (!showCover) {
-      showTimer = setTimeout(() => {
-        setShowMobileTip(true);
-        hideTimer = setTimeout(() => setShowMobileTip(false), 15000); // Hide after 15 seconds of showing
-      }, 4000); // Wait 4 seconds before showing
-    } else {
-      setShowMobileTip(false);
-    }
-    
-    return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-    };
-  }, [showCover]);
 
   // Track and update video progress on unmount or when currentLesson changes
   useEffect(() => {
@@ -592,23 +571,6 @@ export const VideoPlayerView: React.FC<VideoPlayerViewProps> = ({
                     </div>
                   );
                 })}
-              </div>
-            )}
-
-            {/* Mobile Interaction Tip - Klik di sini (Positioned at I14-J14 of the full screen grid) */}
-            {showMobileTip && (
-              <div 
-                className="absolute md:hidden z-[130] pointer-events-none flex flex-col items-center justify-center animate-in fade-in zoom-in duration-500" 
-                style={{ top: '34.6%', left: '90%', transform: 'translate(-50%, -50%)' }}
-              >
-                <div className="bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/20 shadow-2xl mb-0.5 whitespace-nowrap transform -translate-x-16">
-                  <p className="text-[10px] font-bold text-white leading-tight animate-pulse">
-                    Klik di sini untuk cerahkan video
-                  </p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500 animate-bounce mt-1 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
               </div>
             )}
 
