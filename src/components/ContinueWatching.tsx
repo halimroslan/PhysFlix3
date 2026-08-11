@@ -3,6 +3,7 @@
 import React from "react";
 import { Play, ChevronRight, ChevronLeft } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useUserActivity } from "@/context/UserActivityContext";
 import { VideoLesson } from "@/data/physicsData";
 
 interface ContinueWatchingProps {
@@ -12,6 +13,7 @@ interface ContinueWatchingProps {
 
 export const ContinueWatching: React.FC<ContinueWatchingProps> = ({ lessons, onPlay }) => {
   const { lang, t } = useLanguage();
+  const { videoStats } = useUserActivity();
 
   return (
     <div className="space-y-4">
@@ -62,9 +64,19 @@ export const ContinueWatching: React.FC<ContinueWatchingProps> = ({ lessons, onP
                   {lang === "bm" ? item.titleBm : item.titleDlp}
                 </h4>
               </div>
-              <p className="text-[10px] text-slate-400 font-medium">
+              <p className="text-[10px] text-slate-400 font-medium pb-1">
                 {lang === "bm" ? `Tingkatan ${item.form} • Bab ${item.chapterNum}` : `Form ${item.form} • Chapter ${item.chapterNum}`}
               </p>
+              
+              {/* Progress Bar */}
+              {videoStats[item.id] !== undefined && (
+                <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden shadow-inner border border-slate-700/50 mt-2">
+                  <div 
+                    className="h-full bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]" 
+                    style={{ width: `${Math.max(2, videoStats[item.id].completionPercentage || 0)}%` }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}
