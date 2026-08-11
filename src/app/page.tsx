@@ -142,11 +142,11 @@ function MainDashboard() {
             </div>
           )}
           {/* Progress Bar */}
-          {videoStats[item.id]?.completionPercentage !== undefined && videoStats[item.id].completionPercentage > 0 && (
-            <div className="w-full h-1 bg-slate-800 rounded-full mt-2 overflow-hidden">
+          {videoStats[item.id] !== undefined && (
+            <div className="w-full h-1.5 bg-slate-800 rounded-full mt-3 overflow-hidden shadow-inner border border-slate-700/50">
               <div 
-                className="h-full bg-red-500 rounded-full" 
-                style={{ width: `${videoStats[item.id].completionPercentage}%` }}
+                className="h-full bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]" 
+                style={{ width: `${Math.max(2, videoStats[item.id].completionPercentage || 0)}%` }}
               />
             </div>
           )}
