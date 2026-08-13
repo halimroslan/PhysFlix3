@@ -58,7 +58,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
       console.warn("Popup blocked or failed, trying redirect fallback:", error);
-      if (error.code === "auth/popup-blocked" || error.code === "auth/cancelled-popup-request") {
+      if (
+        error.code === "auth/popup-blocked" || 
+        error.code === "auth/cancelled-popup-request" ||
+        error.message?.includes("Database is closing or hidden")
+      ) {
         try {
           await signInWithRedirect(auth, googleProvider);
         } catch (redirectErr: any) {
